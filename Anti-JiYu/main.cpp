@@ -19,10 +19,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 			killJY();
 			break;
 		case 2:
-			disableScreenControl();
+			hangJY();
 			break;
 		case 3:
-			//uncompleted
+			disableScreenControl();
 			break;
 		case 4:
 			FreeConsole();

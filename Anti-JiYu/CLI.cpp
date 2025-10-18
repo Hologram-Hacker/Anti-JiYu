@@ -28,7 +28,7 @@ inline int _initCli() {
 inline int _startCli() {
     register unsigned short choice = 0;
     std::cout << "极域反制 ver 0.8 beta\n\n";
-    std::cout << "[1]结束极域\n[2]禁止屏幕控制\n[3]反控学生端\n[4]退出";
+    std::cout << "[1]结束极域\n[2]挂起极域\n[3]禁止屏幕控制\n[4]退出";
     std::cin >> choice;
     switch (choice) {
     case 1:
