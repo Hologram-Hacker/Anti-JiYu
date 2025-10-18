@@ -8,9 +8,8 @@
 #include "func.cpp"
 #include "CLI.cpp"
 
-int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow) {
+static int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ PWSTR pCmdLine, _In_ int nShowCmd) {
 	if (_initCli() == 1) {
-		MessageBox(NULL, L"无法创建控制台", L"错误", MB_ICONERROR);
 		return 0;
 	}
 	while (1) {
@@ -28,6 +27,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 			FreeConsole();
 			goto end;
 		}
+		system("pause > nul");
+		system("cls");
 	}
 end:
 	return 0;
