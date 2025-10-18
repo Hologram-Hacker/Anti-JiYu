@@ -13,6 +13,11 @@ inline int killJY() {
 	return 0;
 }
 
+inline int hangJY() {
+	//uncompleted
+	return 0;
+}
+
 inline int disableScreenControl() {
 
 	HWND tgtWndClass = FindWindowW(NULL, L"ÆÁÄ»¹ã²¥");
