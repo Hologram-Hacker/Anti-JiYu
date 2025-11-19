@@ -5,10 +5,11 @@
 #include <iostream>
 #include <windows.h>
 #include <cstdlib>
-#include "func.cpp"
-#include "CLI.cpp"
+#include "func.h"
+#include "CLI.h"
 
-static int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ PWSTR pCmdLine, _In_ int nShowCmd) {
+int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ PWSTR pCmdLine, _In_ int nShowCmd) {
+	funcInit();
 	if (_initCli() == 1) {
 		return 0;
 	}

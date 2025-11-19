@@ -6,8 +6,24 @@
 #include <windows.h>
 #include <TlHelp32.h>
 #include <iostream>
+#include <csignal>
+#include "func.h"
 
-static inline int getPidByName(const char* processName)
+bool exitFlag = false;
+
+void sigexit(int signum) {
+	exitFlag = true;
+	MessageBox(0,L"",L"",0);
+	return;
+}
+
+void funcInit() {
+	std::signal(SIGINT, sigexit);
+	std::signal(SIGTERM, sigexit);
+	return;
+}
+
+int getPidByName(const char* processName)
 {
 	HANDLE hSnapshot;
 	PROCESSENTRY32 lppe;
@@ -29,11 +45,11 @@ static inline int getPidByName(const char* processName)
 		}
 		Found = Process32Next(hSnapshot, &lppe);//得到下一个进程  
 	}
-	CloseHandle(hSnapshot);	
+	CloseHandle(hSnapshot);
 	return pid;
 }
 
-static inline int killJY() {
+int killJY() {
 
 	system("taskkill /F /IM StudentMain.exe");
 	system(".\\ntsd.exe -c -q -pn StudentMain.exe");
@@ -41,7 +57,7 @@ static inline int killJY() {
 	return 0;
 }
 
-static inline int hangJY() {
+int hangJY() {
 	HANDLE jiYuHandle = OpenThread(THREAD_ALL_ACCESS, false, getPidByName("StudentMain.exe"));		//有待测试
 	if (jiYuHandle == NULL) {
 		MessageBox(NULL, L"未找到极域进程", L"提示", MB_ICONINFORMATION);
@@ -59,18 +75,22 @@ static inline int hangJY() {
 	return 0;
 }
 
-static inline int disableScreenControl() {
+int disableScreenControl() {
 	HWND tgtWndClass = NULL;
+	std::cout << "开始阻止屏幕广播，按CONTROL - C停止";
 	while (1) {
 		tgtWndClass = FindWindowW(NULL, L"屏幕广播");
 		if (tgtWndClass != NULL) {
 			SendMessageW(tgtWndClass, WM_CLOSE, 0, 0);
+			std::cout << "已向屏幕广播窗口发送关闭消息\n";
 		}
 		else {
-			//MessageBox(NULL, L"未找到屏幕广播窗口", L"错误", MB_ICONERROR);
-
+			continue;
+		}
+		if (exitFlag) {
+			break;
 		}
 	}
-	MessageBox(NULL, L"disableScreenControl退出", L"错误", MB_ICONERROR);
+	MessageBox(NULL, L"停止控制", L"错误", MB_ICONERROR);
 	return 0;
 }

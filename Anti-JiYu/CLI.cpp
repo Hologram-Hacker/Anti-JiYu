@@ -4,8 +4,9 @@
 
 #include <windows.h>
 #include <iostream>
+#include "CLI.h"
 
-static inline int _initCli() {
+int _initCli() {
     if (!AllocConsole()) {
         DWORD err = GetLastError();
         if (err != ERROR_ACCESS_DENIED) {
@@ -25,7 +26,7 @@ static inline int _initCli() {
     return 0;
 }
 
-static inline int _startCli() {
+int _startCli() {
     register unsigned short choice = 0;
     std::cout << "极域反制 ver 0.8 beta\n\n";
     std::cout << "[1]结束极域\n[2]挂起极域\n[3]禁止屏幕控制\n[4]退出\n>";
