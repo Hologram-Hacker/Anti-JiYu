@@ -7,7 +7,8 @@
 #include <TlHelp32.h>
 #include <iostream>
 #include <csignal>
-#include "func.h"
+#include <fstream>
+//#include "func.h"
 
 bool exitFlag = false;
 
@@ -37,28 +38,31 @@ int getPidByName(const char* processName)
 	{
 		strcpy_s(mProce, processName);
 		strcat_s(mProce, ".exe");
-		if (strcmp(mProce, (const char*)(lppe.szExeFile)) == 0)//进程名比较  
+		if (strcmp(mProce, (const char*)(lppe.szExeFile)) == 0)//进程名比较
 		{
 			Found = TRUE;
 			pid = lppe.th32ProcessID;
 			break;
 		}
-		Found = Process32Next(hSnapshot, &lppe);//得到下一个进程  
+		Found = Process32Next(hSnapshot, &lppe);//得到下一个进程
 	}
 	CloseHandle(hSnapshot);
 	return pid;
 }
 
 int killJY() {
-
 	system("taskkill /F /IM StudentMain.exe");
+	std::fstream exefNtsd("ntsd.exe", std::ios::in | std::ios::out | std::ios::binary);
+	if (!exefNtsd.is_open()) {
+		MessageBox(NULL, L"当前目录下未发现ntsd.exe文件，暂时无法使用ntsd", L"提示", MB_ICONINFORMATION);
+		return 0;
+	}
 	system(".\\ntsd.exe -c -q -pn StudentMain.exe");
-
 	return 0;
 }
 
 int hangJY() {
-	HANDLE jiYuHandle = OpenThread(THREAD_ALL_ACCESS, false, getPidByName("StudentMain.exe"));		//有待测试
+	HANDLE jiYuHandle = OpenThread(THREAD_ALL_ACCESS, false, getPidByName("StudentMain"));		//有待测试
 	if (jiYuHandle == NULL) {
 		MessageBox(NULL, L"未找到极域进程", L"提示", MB_ICONINFORMATION);
 		return 0;

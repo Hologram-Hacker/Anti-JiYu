@@ -4,7 +4,7 @@
 
 #include <windows.h>
 #include <iostream>
-#include "CLI.h"
+//#include "CLI.h"
 
 int _initCli() {
     if (!AllocConsole()) {
@@ -32,7 +32,7 @@ int _startCli() {
     std::cout << "[1]½áÊø¼«Óò\n[2]¹ÒÆð¼«Óò\n[3]½ûÖ¹ÆÁÄ»¿ØÖÆ\n[4]ÍË³ö\n>";
     std::cin >> choice;
     std::cin.clear();
-    switch (choice) {
+    switch (choice) {   
     case 1:
         return 1;
     case 2:
